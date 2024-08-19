@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation Beispiel</title>
+</head>
+<body>
+    <h1>Deine Geolocation</h1>
+    <p id="location">Standort wird abgerufen...</p>
+
+    <script>
+        function showPosition(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            document.getElementById("location").innerHTML = "Breitengrad: " + lat + "°, Längengrad: " + lon + "°";
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("location").innerHTML = "Benutzer hat die Standortanfrage abgelehnt.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("location").innerHTML = "Standortinformationen sind nicht verfügbar.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("location").innerHTML = "Die Standortabfrage hat zu lange gedauert.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("location").innerHTML = "Ein unbekannter Fehler ist aufgetreten.";
+                    break;
+            }
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById("location").innerHTML = "Geolocation wird von diesem Browser nicht unterstützt.";
+            }
+        }
+
+        // Beim Laden der Seite wird die Funktion aufgerufen
+        window.onload = getLocation;
+    </script>
+</body>
+</html>
